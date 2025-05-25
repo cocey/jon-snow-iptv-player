@@ -5,9 +5,10 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QFrame, QHBoxLayout, QToolBa
 from .play_pause_button import PlayPauseButton
 
 class Player(QWidget):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, exitFunction: types.FunctionType=None):
         super().__init__(parent)
-        self.setObjectName("Player")
+        self.setObjectName("PlayerWidget")
+        self.exitFunction = exitFunction
 
         self.instance = vlc.Instance()
 
@@ -34,6 +35,11 @@ class Player(QWidget):
         self.playPauseButton = PlayPauseButton(toolBar, self.mediaPlayer.play, self.mediaPlayer.pause)
 
         return toolBar
+
+    def exit(self):
+        if self.exitFunction is not None:
+            self.exitFunction()
+
 
 
     def play(self, url:str):

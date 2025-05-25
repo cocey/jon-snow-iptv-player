@@ -11,6 +11,7 @@ class PlayPauseButton:
 
         self.toolBar = toolBar
         self.action = self.toolBar.addAction(self.playIcon, "Play")
+        self.action.setObjectName("PlayPauseButtonAction")
         self.action.triggered.connect(self.call)
 
         if toolBar is None:
