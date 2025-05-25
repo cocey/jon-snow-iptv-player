@@ -1,3 +1,4 @@
+import types
 import vlc
 import qtawesome as qta
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QFrame, QHBoxLayout, QToolBar
@@ -32,15 +33,18 @@ class Player(QWidget):
 
         toolBar = QToolBar()
 
+        exitButton = toolBar.addAction(qta.icon('fa6s.circle-xmark'), 'back')
+        exitButton.triggered.connect(self.exit)
+
         self.playPauseButton = PlayPauseButton(toolBar, self.mediaPlayer.play, self.mediaPlayer.pause)
+
 
         return toolBar
 
     def exit(self):
         if self.exitFunction is not None:
+            self.mediaPlayer.stop()
             self.exitFunction()
-
-
 
     def play(self, url:str):
         self.media = self.instance.media_new(url)

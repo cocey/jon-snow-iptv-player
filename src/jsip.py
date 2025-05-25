@@ -23,7 +23,7 @@ class MainWindow(QStackedWidget):
         self.home = Home()
         self.addWidget(self.home)
 
-        self.player = Player(self)
+        self.player = Player(exitFunction=self.goBack)
         self.addWidget(self.player)
 
         self.settings = Settings(exitFunction=self.goBack)
