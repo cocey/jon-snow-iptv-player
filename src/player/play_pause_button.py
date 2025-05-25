@@ -33,9 +33,9 @@ class PlayPauseButton:
     def setStatus(self, status: str):
         self.status = status
         if status == "playing":
-            self.action.setIcon(self.playIcon)
-        elif status == "paused":
             self.action.setIcon(self.pauseIcon)
+        elif status == "paused":
+            self.action.setIcon(self.playIcon)
 
     def setState(self, state: str):
         self.state = state
@@ -46,7 +46,7 @@ class PlayPauseButton:
 
     def call(self):
         if self.state == "enabled":
-            if self.status == "playing" and self.playFunction is not None:
+            if self.status == "playing" and self.pauseFunction is not None:
                 self.pauseFunction()
                 self.setStatus("paused")
             else:
