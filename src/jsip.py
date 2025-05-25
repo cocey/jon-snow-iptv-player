@@ -7,6 +7,7 @@ import qtawesome as qta
 from player import Player
 from settings import Settings
 from stream import Stream
+from search import Search
 
 
 class MainWindow(QStackedWidget):
@@ -31,6 +32,9 @@ class MainWindow(QStackedWidget):
         self.settings = Settings(exitFunction=self.goBack, stream=self.stream)
         self.addWidget(self.settings)
 
+        self.search = Search(exitFunction=self.goBack, stream=self.stream)
+        self.addWidget(self.search)
+
         self.showHome()
 
     def goBack(self):
@@ -46,6 +50,8 @@ class MainWindow(QStackedWidget):
             self.showPlayer()
         elif widgetName == "settings":
             self.showSettings()
+        elif widgetName == "search":
+            self.showSearch()
 
 
     def showHome(self):
@@ -59,6 +65,11 @@ class MainWindow(QStackedWidget):
     def showPlayer(self):
         self.setCurrentWidget(self.player)
         self.history.append("player")
+
+    def play(self, url):
+        self.showPlayer()
+        self.player.play(url)
+
 
     def showSettings(self):
         self.setCurrentWidget(self.settings)
@@ -74,7 +85,8 @@ class MainWindow(QStackedWidget):
         print("showSeries")
 
     def showSearch(self):
-        print("showSearch")
+        self.setCurrentWidget(self.search)
+        self.history.append("search")
 
 
 
@@ -96,19 +108,19 @@ class Home(QDialog):
         self.streamLayout = QHBoxLayout()
 
         liveButton = QPushButton(qta.icon('fa6s.tv'), 'Live TV')
-        liveButton.clicked.connect(self.gotoSettings)
+        liveButton.clicked.connect(self.gotoLiveTV)
         self.streamLayout.addWidget(liveButton)
 
         moviesButton = QPushButton(qta.icon('fa6s.film'), 'Movies')
-        moviesButton.clicked.connect(self.gotoSettings)
+        moviesButton.clicked.connect(self.gotoMovies)
         self.streamLayout.addWidget(moviesButton)
 
         seriesButton = QPushButton(qta.icon('fa6s.video'), 'Series')
-        seriesButton.clicked.connect(self.gotoSettings)
+        seriesButton.clicked.connect(self.gotoSeries)
         self.streamLayout.addWidget(seriesButton)
 
         searchButton = QPushButton(qta.icon('fa6s.magnifying-glass'), 'Search')
-        searchButton.clicked.connect(self.gotoSettings)
+        searchButton.clicked.connect(self.gotoSearch)
         self.streamLayout.addWidget(searchButton)
 
         layout.addLayout(self.streamLayout)
@@ -138,16 +150,16 @@ class Home(QDialog):
         self.parent().showSettings()
 
     def gotoLiveTV(self):
-        self.parent().gotoLiveTV()
+        self.parent().showLiveTV()
 
     def gotoMovies(self):
-        self.parent().gotoMovies()
+        self.parent().showMovies()
 
     def gotoSeries(self):
-        self.parent().gotoSeries()
+        self.parent().showSeries()
 
     def gotoSearch(self):
-        self.parent().gotoSearch()
+        self.parent().showSearch()
 
 
 

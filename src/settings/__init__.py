@@ -87,9 +87,6 @@ class Settings(QDialog):
                 return json.load(file)
         return None
 
-
-
-
     def exit(self):
         if self.exitFunction is not None:
             self.exitFunction()
