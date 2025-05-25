@@ -5,11 +5,7 @@ from PySide6.QtGui import QAction
 from PySide6.QtWidgets import QToolBar
 
 class PlayPauseButton:
-
-    def __init__(self, toolBar: QToolBar = None, playFunction:types.FunctionType=None, pauseFunction:types.FunctionType=None):
-        self.__init__(toolBar, playFunction, pauseFunction, "paused", "enabled")
-
-    def __init__(self, toolBar: QToolBar = None, playFunction:types.FunctionType=None, pauseFunction:types.FunctionType=None, status="paused", state="disabled"):
+    def __init__(self, toolBar: QToolBar = None, playFunction:types.FunctionType=None, pauseFunction:types.FunctionType=None, status="paused", state="enabled"):
         self.playIcon = qta.icon("fa6s.play")
         self.pauseIcon = qta.icon("fa6s.pause")
 
