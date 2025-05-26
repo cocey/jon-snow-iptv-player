@@ -20,6 +20,7 @@ class Player(QWidget):
         self.setObjectName("PlayerWidget")
 
         self.exitFunction = exitFunction
+        self.parent().setStyleSheet("background-color: transparent; border: none;")
 
         self.instance = vlc.Instance()
 
@@ -32,6 +33,8 @@ class Player(QWidget):
         self.playerControls.show()
 
         self.exitButton = self.createExitButton()
+        # if not self.exitButton==None:
+        #     self.exitButton.show()
         self.place()
         self.installEventFilters()
 
@@ -92,8 +95,9 @@ class Player(QWidget):
 
     def createPlayerControls(self):
         toolBar = QToolBar(self)
-        toolBar.setFixedHeight(30)
+        toolBar.setFixedHeight(50)
         toolBar.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        toolBar.setStyleSheet("QToolBar {border: none;background-color: rgba(0,0,0,0.6); border: none;}")
 
         self.playPauseButton = PlayPauseButton(toolBar, self.mediaPlayer.play, self.mediaPlayer.pause)
 
@@ -104,6 +108,7 @@ class Player(QWidget):
         self.volumeSlider.setMinimum(0)
         self.volumeSlider.setMaximum(100)
         self.volumeSlider.setFixedWidth(70)
+        self.volumeSlider.setFixedHeight(toolBar.height())
         self.volumeSlider.setValue(self.volumeValue)
         self.volumeSlider.setTickInterval(10)
         self.volumeSlider.setTickPosition(QSlider.TickPosition.TicksBelow)
@@ -122,6 +127,7 @@ class Player(QWidget):
         self.playerProgress.sliderMoved.connect(self.playerProgressSliderMoved)
         self.playerProgress.sliderReleased.connect(self.playerProgressSliderReleased)
         self.playerProgress.sliderPressed.connect(self.playerProgressSliderPressed)
+        self.playerProgress.setFixedHeight(toolBar.height())
         toolBar.addWidget(self.playerProgress)
 
         toolBar.addSeparator()
@@ -129,18 +135,18 @@ class Player(QWidget):
         fullScreenAction = toolBar.addAction(qta.icon("fa6s.expand"), "Full Screen")
         fullScreenAction.triggered.connect(self.toggleFullScreen)
 
-
         return toolBar
 
     def createExitButton(self):
         if self.exitFunction:
             exitButton = QPushButton(parent=self)
             exitButton.setIcon(qta.icon("fa6s.circle-xmark"))
-            exitButton.setStyleSheet("QPushButton{background-color: transparent;}")
             exitButton.clicked.connect(self.exit)
             exitButton.setIconSize(QSize(50,50))
             exitButton.setMinimumSize(50,50)
             exitButton.setMaximumSize(50,50)
+            exitButton.setToolTip("Exit")
+
             return exitButton
         return None
 
